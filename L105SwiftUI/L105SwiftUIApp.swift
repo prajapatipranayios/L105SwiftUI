@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct L105SwiftUIApp: App {
+    let viewModel = MoviesViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MoviesView()
+                .environmentObject(viewModel)
         }
     }
 }
