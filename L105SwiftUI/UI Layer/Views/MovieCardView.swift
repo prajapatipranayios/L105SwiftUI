@@ -17,10 +17,18 @@ struct MovieCardView: View {
                     .font(.headline)
                     .multilineTextAlignment(.leading)
                 Text(movie.releaseDate)
+            }.padding()
+            //Image(systemName: "person")
+            Spacer()
+            let url = URL(string: movie.getImageUrl())
+            AsyncImage(url: url) { image in
+                image.scaledToFit()
+            } placeholder: {
+                Image(systemName: "person")
+                    .resizable()
+                    .frame(width: 50, height: 50)
             }
-            Image(systemName: "person")
-            AsyncImage(url: <#T##URL?#>)
-        }
+        }.padding()
     }
 }
 
@@ -29,5 +37,5 @@ struct MovieCardView: View {
                                title: "Terminator 2",
                                releaseDate: "1997-10-01",
                                imageUrlSuffix: "/8uO0gUM8aNqYLs1OsTBQiXu0fEv.jpg",
-                               overview: "Terminator T-100 and tthe restt of the crew fight for the future of humanity."))
+                               overview: "Terminator T-100 and the rest of the crew fight for the future of humanity."))
 }
