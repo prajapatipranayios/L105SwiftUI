@@ -17,14 +17,15 @@ struct MovieCardView: View {
                     .font(.headline)
                     .multilineTextAlignment(.leading)
                 Text(movie.releaseDate)
+                    .foregroundColor    (.blue)
             }.padding()
             //Image(systemName: "person")
             Spacer()
-            let url = URL(string: movie.getImageUrl())
+            let url = URL(string: movie.getThumbnailImageUrl())
             AsyncImage(url: url) { image in
                 image.scaledToFit()
             } placeholder: {
-                Image(systemName: "person")
+                Image("default")
                     .resizable()
                     .frame(width: 50, height: 50)
             }

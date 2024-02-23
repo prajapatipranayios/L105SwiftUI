@@ -13,8 +13,10 @@ struct L105SwiftUIApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MoviesView()
-                .environmentObject(viewModel)
+            NavigationView {
+                MoviesView()
+                    .environmentObject(viewModel)
+            }
         }
     }
 }

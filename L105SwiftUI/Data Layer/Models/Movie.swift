@@ -20,8 +20,8 @@ struct MovieRootResult: Codable {
 struct Movie: Codable, Identifiable {
     struct Constants {
         static let baseImageUrl = "https://image.tmdb.org/t/p/"
-        //static let logoSize = "w500"
         static let logoSize = "w45"
+        static let largeImageSize = "w500"
     }
     
     var id: Int
@@ -30,8 +30,12 @@ struct Movie: Codable, Identifiable {
     let imageUrlSuffix: String
     let overview: String
     
-    func getImageUrl() -> String {
+    func getThumbnailImageUrl() -> String {
         return "\(Constants.baseImageUrl)\(Constants.logoSize)\(imageUrlSuffix)"
+    }
+    
+    func getLargeImageUrl() -> String {
+        return "\(Constants.baseImageUrl)\(Constants.largeImageSize)\(imageUrlSuffix)"
     }
     
     enum CodingKeys: String, CodingKey {

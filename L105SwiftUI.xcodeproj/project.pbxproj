@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1263B77D2B8888E8000C63B0 /* MovieDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1263B77C2B8888E8000C63B0 /* MovieDetailsView.swift */; };
 		12BFED992B85BDF90007F14F /* L105SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12BFED982B85BDF90007F14F /* L105SwiftUIApp.swift */; };
 		12BFED9B2B85BDF90007F14F /* MoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12BFED9A2B85BDF90007F14F /* MoviesView.swift */; };
 		12BFED9D2B85BDFB0007F14F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12BFED9C2B85BDFB0007F14F /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1263B77C2B8888E8000C63B0 /* MovieDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsView.swift; sourceTree = "<group>"; };
 		12BFED952B85BDF90007F14F /* L105SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = L105SwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12BFED982B85BDF90007F14F /* L105SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L105SwiftUIApp.swift; sourceTree = "<group>"; };
 		12BFED9A2B85BDF90007F14F /* MoviesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesView.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 			children = (
 				12BFED9A2B85BDF90007F14F /* MoviesView.swift */,
 				12BFEDD12B8603740007F14F /* MovieCardView.swift */,
+				1263B77C2B8888E8000C63B0 /* MovieDetailsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 			files = (
 				12BFEDCA2B85C4340007F14F /* MovieAPI.swift in Sources */,
 				12BFEDD02B85D4850007F14F /* MoviesViewModel.swift in Sources */,
+				1263B77D2B8888E8000C63B0 /* MovieDetailsView.swift in Sources */,
 				12BFED9B2B85BDF90007F14F /* MoviesView.swift in Sources */,
 				12BFEDCC2B85CC7F0007F14F /* DataError.swift in Sources */,
 				12BFED992B85BDF90007F14F /* L105SwiftUIApp.swift in Sources */,

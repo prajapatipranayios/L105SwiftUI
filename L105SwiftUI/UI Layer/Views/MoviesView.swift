@@ -11,22 +11,23 @@ struct MoviesView: View {
     @EnvironmentObject var viewModel: MoviesViewModel
     
     var body: some View {
-        NavigationView {
-            List {
-                Section(header: Text("Popular Movies")) {
-                    ForEach(viewModel.movies) {
-                        movie in
-                        NavigationLink(destination: Text(movie.title)) {
-                            MovieCardView(movie: movie)
-                        }
+        List {
+            Section(header: Text("Popular Movies")) {
+                ForEach(viewModel.movies) {
+                    movie in
+                    NavigationLink(destination: MovieDetailsView(movie: movie)) {
+                        MovieCardView(movie: movie)
                     }
+                    //NavigationLink(destination: Text(movie.title)) {
+                      //  MovieCardView(movie: movie)
+                    //}
                 }
             }
-            .navigationTitle("Movies")
-            .onAppear(perform: {
-                viewModel.getMovies()
-            })
         }
+        .navigationTitle("Movies")
+        .onAppear(perform: {
+            viewModel.getMovies()
+        })
     }
 }
 
