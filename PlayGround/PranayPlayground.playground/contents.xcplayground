@@ -19,5 +19,6 @@
         <page name='Control Flow - if else conditional statements'/>
         <page name='Control Flow - Switch statements'/>
         <page name='Classes and Structs'/>
+        <page name='RegularExpressions'/>
     </pages>
 </playground>
