@@ -15,7 +15,9 @@ class MoviesViewModel: ObservableObject {
     private let apiService: MovieAPILogic
 //    private let apiService: MovieAPI
     
-    init(apiService: MovieAPILogic = MovieAPI()) {
+    //init(apiService: MovieAPILogic,
+    init(apiService: MovieAPILogic = MovieAPI(),
+         name: String = "") {
         self.apiService = apiService
     }
 //    init(apiService: MovieAPI = MovieAPI()) {

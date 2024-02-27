@@ -29,7 +29,7 @@ struct MovieDetailsView: View {
                 Text("Released: \(movie.releaseDate)")
                 Spacer()
                 Text(movie.overview)
-                    .font(.body)
+                    .font(.body)                    
                     .foregroundStyle(.black)
             }
             //s.accessibilityLabel("Moovie Details")
