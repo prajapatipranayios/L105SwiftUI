@@ -11,11 +11,11 @@ import Combine
 class MoviesViewModel: ObservableObject {
     @Published private(set) var movies: [Movie] = []
     @Published private(set) var error: DataError? = nil
+    @Published private(set) var movieRatings: [MovieRating] = []
     
     private let apiService: MovieAPILogic
 //    private let apiService: MovieAPI
     
-    //init(apiService: MovieAPILogic,
     init(apiService: MovieAPILogic = MovieAPI(),
          name: String = "") {
         self.apiService = apiService
@@ -30,6 +30,17 @@ class MoviesViewModel: ObservableObject {
             switch result {
             case .success(let movies):
                 self.movies = movies ?? []
+            case .failure(let error):
+                self.error = error
+            }
+        }
+    }
+    
+    func getMovieRatings() {
+        apiService.getMovieRatings { result in
+            switch result {
+            case .success(let movieRatings):
+                self.movieRatings = movieRatings ?? []
             case .failure(let error):
                 self.error = error
             }
