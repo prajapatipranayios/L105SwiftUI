@@ -31,4 +31,14 @@ struct MovieRating: Codable, Identifiable {
         case voteCount = "vote_count"
         case voteAverage = "vote_average"
     }
+    
+    //  example calculation
+    func minVote() -> Double {
+        return voteAverage / Double.random(in: 2...3)
+    }
+    
+    //  example calculation
+    func maxVote() -> Double {
+        return voteAverage / Double.random(in: 2...3)
+    }
 }

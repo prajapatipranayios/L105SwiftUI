@@ -32,9 +32,28 @@ struct MoviesView: View {
             }
             
             Chart {
-                ForEach(viewModel.movieRatings.prefix(5)) {movie in
-                    BarMark(x: .value("Vote Count", movie.voteCount),
-                            y: .value("Movies", movie.title))
+                ForEach(viewModel.movieRatings.prefix(15)) {movie in
+                    LineMark(x: .value("Movies", movie.title),
+                             y: .value("Vote Count", movie.voteCount))
+                    .foregroundStyle(Color.red)
+                    //.foregroundStyle(by: .value("Movie", movie.title))
+                    //.symbol(by: .value("Movie", movie.title))
+                    //.accessibilityLabel(movie.title)
+                    //.interpolationMethod(.catmullRom)
+                    
+                    BarMark(x: .value("Movies", movie.title),
+                            y: .value("Vote Count", movie.voteAverage))
+                    .foregroundStyle(Color.red)
+                    .symbol(by: .value("Movie", movie.title))
+                    .accessibilityLabel(movie.title)
+                    .accessibilityValue("\(movie.popularity)")
+                    
+                    BarMark(x: .value("Movies", movie.title),
+                            y: .value("Vote Average", movie.voteCount))
+                    .foregroundStyle(Color.red)
+                    .symbol(by: .value("Movie", movie.title))
+                    .accessibilityLabel(movie.title)
+                    .accessibilityValue("\(movie.popularity)")
                 }
             }
             .onAppear {

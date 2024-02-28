@@ -182,6 +182,7 @@
 		12BFEDC42B85C3BC0007F14F /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				12BFEDCF2B85D4850007F14F /* MoviesViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -189,7 +190,6 @@
 		12BFEDC52B85C3D20007F14F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				12BFEDCF2B85D4850007F14F /* MoviesViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
