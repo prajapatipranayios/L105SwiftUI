@@ -36,6 +36,12 @@ class MoviesViewModel: ObservableObject {
         }
     }
     
+    func getMovieRatingsVoteAverage() -> Double {
+        let voteAverages = movieRatings.prefix(10).map { $0.voteAverage }
+        let sum = voteAverages.reduce(0, +)
+        return sum / 10
+    }
+    
     func getMovieRatings() {
         apiService.getMovieRatings { result in
             switch result {
