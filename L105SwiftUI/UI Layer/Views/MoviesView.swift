@@ -7,16 +7,25 @@
 
 import SwiftUI
 import Charts
+import CoreData
 
 struct MoviesView: View {
+    @Environment(\.managedObjectContext) var managedObjectContext: NSManagedObjectContext
     @EnvironmentObject var viewModel: MoviesViewModel
+    
+    @FetchRequest(sortDescriptors: []) var movieCDList: FetchedResults<MovieCD>
     
     var body: some View {
         TabView {
             List {
                 Section(header: Text("Popular Movies")) {
-                    ForEach(viewModel.movies) {
-                        movie in
+                    //ForEach(viewModel.movies) { movie in
+                    ForEach(movieCDList) { movieCD in
+                        let movie = Movie(id: Int(movieCD.id),
+                                          title: movieCD.title ?? "",
+                                          releaseDate: movieCD.releaseDate ?? "",
+                                          imageUrlSuffix: movieCD.imageUrlSuffix ?? "",
+                                          overview: movieCD.overview ?? "")
                         NavigationLink(destination: MovieDetailsView(movie: movie)) {
                             MovieCardView(movie: movie)
                         }
@@ -26,6 +35,19 @@ struct MoviesView: View {
             .onAppear(perform: {
                 viewModel.getMovies()
             })
+            .onTapGesture {
+                if let movie = viewModel.movies.first {
+                    let movieCD = MovieCD(context: managedObjectContext)
+                    movieCD.id = Int64(movie.id)
+                    movieCD.title = movie.title
+                    movieCD.largeImageUrl = movie.getLargeImageUrl()
+                    movieCD.thumbnailImageUrl = movie.getThumbnailImageUrl()
+                    movieCD.overview = movie.overview
+                    movieCD.imageUrlSuffix = movie.imageUrlSuffix
+                    movieCD.releaseDate = movie.releaseDate
+                    try? managedObjectContext.save()
+                }
+            }
             .tabItem {
                 Label("Movies",
                 systemImage: "popcorn.fill")
