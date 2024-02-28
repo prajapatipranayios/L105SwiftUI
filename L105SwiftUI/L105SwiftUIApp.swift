@@ -9,8 +9,6 @@ import SwiftUI
 
 @main
 struct L105SwiftUIApp: App {
-    @StateObject private var persistentController = MoviePersistentController()
-    
     let viewModel = MoviesViewModel()
     
     var body: some Scene {
@@ -18,8 +16,6 @@ struct L105SwiftUIApp: App {
             NavigationView {
                 MoviesView()
                     .environmentObject(viewModel)
-                    .environment(\.managedObjectContext,
-                                  persistentController.persistentContainer.viewContext)
             }
         }
     }

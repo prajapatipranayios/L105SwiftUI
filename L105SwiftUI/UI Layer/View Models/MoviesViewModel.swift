@@ -7,8 +7,18 @@
 
 import Foundation
 import Combine
+import Network
+import CoreData
 
 class MoviesViewModel: ObservableObject {
+    private var networkConnectivity: NWPathMonitor = NWPathMonitor()
+    
+    // Core Data
+    //@StateObject private var persistentController = MoviePersistentController()
+    private var persistentController = MoviePersistentController()
+    //private var moviesFetchRequest: NSFetchRequest<MovieCD> = MovieCD.fetchRequest()
+    private var moviesFetchRequest = MovieCD.fetchRequest()
+    
     @Published private(set) var movies: [Movie] = []
     @Published private(set) var error: DataError? = nil
     @Published private(set) var movieRatings: [MovieRating] = []
@@ -25,14 +35,20 @@ class MoviesViewModel: ObservableObject {
 //    }
     
     func getMovies() {
-        //apiService.getMovies() { [weak self] result in
-        apiService.getMovies { result in
-            switch result {
-            case .success(let movies):
-                self.movies = movies ?? []
-            case .failure(let error):
-                self.error = error
+        switch networkConnectivity.currentPath.status {
+        case .satisfied:    //  Connected to internet
+            //apiService.getMovies() { [weak self] result in
+            apiService.getMovies { result in
+                switch result {
+                case .success(let movies):
+                    self.movies = movies ?? []
+                case .failure(let error):
+                    self.error = error
+                }
             }
+        default:    //  not connected to internet
+            //  TODO: add core data fetch
+            break
         }
     }
     
@@ -43,13 +59,19 @@ class MoviesViewModel: ObservableObject {
     }
     
     func getMovieRatings() {
-        apiService.getMovieRatings { result in
-            switch result {
-            case .success(let movieRatings):
-                self.movieRatings = movieRatings ?? []
-            case .failure(let error):
-                self.error = error
+        switch networkConnectivity.currentPath.status {
+        case .satisfied:    //  Connected to internet
+            apiService.getMovieRatings { result in
+                switch result {
+                case .success(let movieRatings):
+                    self.movieRatings = movieRatings ?? []
+                case .failure(let error):
+                    self.error = error
+                }
             }
+        default:
+            //  TODO: add core data fetch
+            break
         }
     }
 }
