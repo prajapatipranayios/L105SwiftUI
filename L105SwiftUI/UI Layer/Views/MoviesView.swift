@@ -12,7 +12,7 @@ import CoreData
 struct MoviesView: View {
     @EnvironmentObject var viewModel: MoviesViewModel
     
-    @FetchRequest(sortDescriptors: []) var movieCDList: FetchedResults<MovieCD>
+    //@FetchRequest(sortDescriptors: []) var movieCDList: FetchedResults<MovieCD>
     
     var body: some View {
         TabView {

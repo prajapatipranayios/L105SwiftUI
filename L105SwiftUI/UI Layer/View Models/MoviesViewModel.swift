@@ -16,19 +16,19 @@ class MoviesViewModel: ObservableObject {
     // Core Data
     //@StateObject private var persistentController = MoviePersistentController()
     private var persistentController = MoviePersistentController()
-    //private var moviesFetchRequest: NSFetchRequest<MovieCD> = MovieCD.fetchRequest()
-    private var moviesFetchRequest = MovieCD.fetchRequest()
+    
+    // Network/backend Service
+    private let apiService: MovieAPILogic
+//    private let apiService: MovieAPI
     
     @Published private(set) var movies: [Movie] = []
     @Published private(set) var error: DataError? = nil
     @Published private(set) var movieRatings: [MovieRating] = []
     
-    private let apiService: MovieAPILogic
-//    private let apiService: MovieAPI
-    
     init(apiService: MovieAPILogic = MovieAPI(),
          name: String = "") {
         self.apiService = apiService
+        networkConnectivity.start(queue: DispatchQueue.global(qos: .userInitiated))
     }
 //    init(apiService: MovieAPI = MovieAPI()) {
 //        self.apiService = apiService
@@ -38,17 +38,18 @@ class MoviesViewModel: ObservableObject {
         switch networkConnectivity.currentPath.status {
         case .satisfied:    //  Connected to internet
             //apiService.getMovies() { [weak self] result in
-            apiService.getMovies { result in
+            apiService.getMovies { [weak self] result in
                 switch result {
                 case .success(let movies):
-                    self.movies = movies ?? []
+                    self?.movies = movies ?? []
+                    self?.persistentController.addAndUpdateServerDataToCoreData(moviesFromBackend: movies)
                 case .failure(let error):
-                    self.error = error
+                    self?.error = error
                 }
             }
         default:    //  not connected to internet
-            //  TODO: add core data fetch
-            break
+            // fetch it from persistence of the device
+            movies = persistentController.fetchMoviesFromCoreData()
         }
     }
     
