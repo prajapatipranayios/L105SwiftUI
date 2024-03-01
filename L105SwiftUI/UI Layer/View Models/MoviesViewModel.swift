@@ -15,7 +15,8 @@ class MoviesViewModel: ObservableObject {
     
     // Core Data
     //@StateObject private var persistentController = MoviePersistentController()
-    private var persistentController = MoviePersistentController()
+    //private var persistentController = MoviePersistentController()
+    private var persistentController: MoviePersistentController
     
     // Network/backend Service
     private let apiService: MovieAPILogic
@@ -26,8 +27,10 @@ class MoviesViewModel: ObservableObject {
     @Published private(set) var movieRatings: [MovieRating] = []
     
     init(apiService: MovieAPILogic = MovieAPI(),
+         persistentController: MoviePersistentController = MoviePersistentController(),
          name: String = "") {
         self.apiService = apiService
+        self.persistentController = persistentController
         networkConnectivity.start(queue: DispatchQueue.global(qos: .userInitiated))
     }
 //    init(apiService: MovieAPI = MovieAPI()) {

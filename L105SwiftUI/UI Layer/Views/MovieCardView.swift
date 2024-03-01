@@ -11,25 +11,52 @@ struct MovieCardView: View {
     var movie: Movie
     
     var body: some View {
-        HStack {
-            VStack {
+        
+        VStack {
+            HStack {
                 Text(movie.title)
                     .font(.headline)
                     .multilineTextAlignment(.leading)
-                Text(movie.releaseDate)
-                    .foregroundColor    (.blue)
-            }.padding()
-            //Image(systemName: "person")
-            Spacer()
-            let url = URL(string: movie.getThumbnailImageUrl())
-            AsyncImage(url: url) { image in
-                image.scaledToFit()
-            } placeholder: {
-                Image("default")
-                    .resizable()
-                    .frame(width: 50, height: 50)
+                Spacer()
+                let url = URL(string: movie.getThumbnailImageUrl())
+                AsyncImage(url: url) { image in
+                    image.scaledToFit()
+                } placeholder: {
+                    Image("default")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                }
             }
-        }.padding()
+            HStack {
+                Text(movie.releaseDate)
+                    .font(.caption)
+                    .foregroundColor(.accentColor)
+                Spacer()
+            }
+        }
+        .padding()
+        
+//        HStack {
+//            VStack {
+//                Text(movie.title)
+//                    .font(.headline)
+//                    .multilineTextAlignment(.leading)
+//                Text(movie.releaseDate)
+//                    .foregroundColor    (.blue)
+//            }.padding()
+//                //.frame(alignment: .leading)
+//                .multilineTextAlignment(.leading)
+//            //Image(systemName: "person")
+//            Spacer()
+//            let url = URL(string: movie.getThumbnailImageUrl())
+//            AsyncImage(url: url) { image in
+//                image.scaledToFit()
+//            } placeholder: {
+//                Image("default")
+//                    .resizable()
+//                    .frame(width: 50, height: 50)
+//            }
+//        }.padding()
     }
 }
 

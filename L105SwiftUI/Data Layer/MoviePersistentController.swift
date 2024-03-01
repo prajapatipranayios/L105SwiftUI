@@ -21,7 +21,7 @@ class MoviePersistentController: ObservableObject {
         }
     }
     
-    func addAndUpdateServerDataToCoreData(moviesFromBackend: [Movie]?) {
+    func    addAndUpdateServerDataToCoreData(moviesFromBackend: [Movie]?) {
         // 0. prepare incoming server side movies ID list and dictionary
         var movieIdDict: [Int: Movie] = [:]
         var movieIdList: [Int] = []
@@ -51,6 +51,7 @@ class MoviePersistentController: ObservableObject {
 //        guard let managedObjectContext = persistentContainer.viewContext else {
 //            return
 //        }
+        
         let managedObjectContext = persistentContainer.viewContext
         
         let moviesCDList = try? managedObjectContext.fetch(moviesFetchRequest)
@@ -84,11 +85,17 @@ class MoviePersistentController: ObservableObject {
         // 4. add new objects coming from the backend/server side
         for movie in movies {
             if !moviesIdListInCD.contains(movie.id) {
+                let GenreCD = GenreCD(context: managedObjectContext)
+                GenreCD.id = 1
+                GenreCD.title = "Comedy"
+                
                 let movieCD = MovieCD(context: managedObjectContext)
                 movieCD.id = Int64( movie.id)
                 movieCD.overview = movie.overview
                 movieCD.title = movie.title
                 movieCD.releaseDate = movie.releaseDate
+                movieCD.imageUrlSuffix = movie.imageUrlSuffix
+                movieCD.genre = GenreCD
                 
             }
         }
@@ -98,6 +105,11 @@ class MoviePersistentController: ObservableObject {
     }
     
     func fetchMoviesFromCoreData() -> [Movie] {
+        //let movieTitleSortDescriptor = NSSortDescriptor(key: "title", ascending: false)
+        let movieReleaseDateSortDescriptor = NSSortDescriptor(key: "releaseDate", ascending: true)
+        
+        moviesFetchRequest.sortDescriptors = [movieReleaseDateSortDescriptor]
+        
         let movieCDList = try? persistentContainer.viewContext.fetch(moviesFetchRequest)
         
         //movies = []

@@ -65,6 +65,7 @@
 		12BFEDCD2B85CCD80007F14F /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		12BFEDCF2B85D4850007F14F /* MoviesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewModel.swift; sourceTree = "<group>"; };
 		12BFEDD12B8603740007F14F /* MovieCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCardView.swift; sourceTree = "<group>"; };
+		12E366442B91BCA2003C3BFE /* MovieFan 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MovieFan 4.xcdatamodel"; sourceTree = "<group>"; };
 		12FA354D2B8F560100C1660C /* MovieFan.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MovieFan.xcdatamodel; sourceTree = "<group>"; };
 		12FA354F2B8F57E200C1660C /* MoviePersistentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePersistentController.swift; sourceTree = "<group>"; };
 		1F4710EF78D775C13940613A /* Pods-L105SwiftUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-L105SwiftUITests.release.xcconfig"; path = "Target Support Files/Pods-L105SwiftUITests/Pods-L105SwiftUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -835,11 +836,12 @@
 		12FA354C2B8F560100C1660C /* MovieFan.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				12E366442B91BCA2003C3BFE /* MovieFan 4.xcdatamodel */,
 				1203DEA42B9076B3001611FA /* MovieFan 3.xcdatamodel */,
 				1203DEA32B907647001611FA /* MovieFan 2.xcdatamodel */,
 				12FA354D2B8F560100C1660C /* MovieFan.xcdatamodel */,
 			);
-			currentVersion = 12FA354D2B8F560100C1660C /* MovieFan.xcdatamodel */;
+			currentVersion = 12E366442B91BCA2003C3BFE /* MovieFan 4.xcdatamodel */;
 			path = MovieFan.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
