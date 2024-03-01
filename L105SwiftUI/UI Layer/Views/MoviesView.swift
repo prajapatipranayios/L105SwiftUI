@@ -33,6 +33,12 @@ struct MoviesView: View {
             }
             .onAppear(perform: {
                 viewModel.getMovies()
+                
+                let lastDate = UserDefaults.standard.value(forKey: "lastAppearedDate")
+                print("lastDate = \(lastDate)")
+                
+                UserDefaults.standard.setValue(Date(), 
+                                               forKey: "lastAppearedDate")
             })
 //            .onTapGesture {
 //                if let movie = viewModel.movies.first {
