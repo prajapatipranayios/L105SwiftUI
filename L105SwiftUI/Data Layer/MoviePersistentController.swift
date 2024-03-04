@@ -12,6 +12,7 @@ class MoviePersistentController: ObservableObject {
     var persistentContainer = NSPersistentContainer(name: "MovieFan")
     //private var moviesFetchRequest: NSFetchRequest<MovieCD> = MovieCD.fetchRequest()
     private var moviesFetchRequest = MovieCD.fetchRequest()
+    private var movieRatingFetchRequest = MovieRatingCD.fetchRequest()
     
     init() {
         persistentContainer.loadPersistentStores { storeDescription, error in
@@ -21,7 +22,7 @@ class MoviePersistentController: ObservableObject {
         }
     }
     
-    func    addAndUpdateServerDataToCoreData(moviesFromBackend: [Movie]?) {
+    func addAndUpdateServerDataToCoreData(moviesFromBackend: [Movie]?) {
         // 0. prepare incoming server side movies ID list and dictionary
         var movieIdDict: [Int: Movie] = [:]
         var movieIdList: [Int] = []
@@ -104,6 +105,67 @@ class MoviePersistentController: ObservableObject {
         try? managedObjectContext.save()
     }
     
+    func addAndUpdateMovieRatingServerDataToCoreData(movieRatingFromBackend: [MovieRating]?) {
+        // 0. prepare incoming server side movie rating ID list and dictionary
+        var movieRatingsIdDist: [Int: MovieRating] = [:]
+        var movieRatingsIdList: [Int] = []
+        
+        guard let movieRatings = movieRatingFromBackend,
+              !movieRatings.isEmpty else {
+            return
+        }
+        
+        for movieRating in movieRatings {
+            movieRatingsIdDist[movieRating.id] = movieRating
+        }
+        movieRatingsIdList = movieRatings.map { $0.id }
+        
+        // 1. get all movie ratings that match incoming server side movie rating ids
+        // find any existing movie ratings in our local CoreData
+        movieRatingFetchRequest.predicate = NSPredicate(
+            format: "id in %@", movieRatingsIdList
+        )
+        
+        // 2. make a fetch request using predicate
+        let managedObjectContext = persistentContainer.viewContext
+        
+        let movieRatingsCDList = try? managedObjectContext.fetch(moviesFetchRequest)
+        print("movieRatingsCDList = \(movieRatingsCDList)")
+        
+        guard let movieRatingsCDList = movieRatingsCDList else {
+            return
+        }
+        
+        var movieRatingsIdListInCD: [Int] = []
+        
+        // 3. update all matching movies from CoreData to have the same data
+        // server side movies
+        for movieRatingCD in movieRatingsCDList {
+            movieRatingsIdListInCD.append(Int(movieRatingCD.id))
+            
+            if let movieRating = movieRatingsIdDist[Int(movieRatingCD.id)] {
+                movieRatingCD.setValue(movieRating.popularity, forKey: "popularity")
+                movieRatingCD.setValue(movieRating.title, forKey: "title")
+                movieRatingCD.setValue(movieRating.voteAverage, forKey: "voteAverage")
+                movieRatingCD.setValue(movieRating.voteCount, forKey: "voteCount")
+            }
+        }
+        
+        // 4. add new objects coming from the backend/server side
+        for movieRating in movieRatings {
+            if !movieRatingsIdListInCD.contains(movieRating.id) {
+                let movieRatingCD = MovieRatingCD(context: managedObjectContext)
+                movieRatingCD.id = Int64(movieRating.id)
+                movieRatingCD.popularity = movieRating.popularity
+                movieRatingCD.voteCount = Int64(movieRating.voteCount)
+                movieRatingCD.voteAverage = movieRating.voteAverage
+            }
+        }
+        
+        // 5. save changes
+        try? managedObjectContext.save()
+    }
+    
     func fetchMoviesFromCoreData() -> [Movie] {
         //let movieTitleSortDescriptor = NSSortDescriptor(key: "title", ascending: false)
         let movieReleaseDateSortDescriptor = NSSortDescriptor(key: "releaseDate", ascending: true)
@@ -129,5 +191,31 @@ class MoviePersistentController: ObservableObject {
         }
         
         return convertedMovies
+    }
+    
+    func fetchMovieRatingsFromCoreData() -> [MovieRating] {
+        
+        let movieRatingVoteCountSortDescriptor = NSSortDescriptor(key: "voteCount",
+                                                                  ascending: true)
+        movieRatingFetchRequest.sortDescriptors = [movieRatingVoteCountSortDescriptor]
+        
+        let movieRatingsCDList = try? persistentContainer.viewContext.fetch(movieRatingFetchRequest)
+        
+        var convertedMovieRatings: [MovieRating] = []
+        
+        guard let movieRatingsCDList = movieRatingsCDList else {
+            return []
+        }
+        
+        for movieRatingCD in movieRatingsCDList {
+            let movieRating = MovieRating(id: Int(movieRatingCD.id),
+                                          title: movieRatingCD.title ?? "",
+                                          popularity: movieRatingCD.popularity,
+                                          voteCount: Int(movieRatingCD.voteCount),
+                                          voteAverage: movieRatingCD.voteAverage)
+            convertedMovieRatings.append(movieRating)
+        }
+        
+        return convertedMovieRatings
     }
 }

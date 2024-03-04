@@ -65,17 +65,19 @@ class MoviesViewModel: ObservableObject {
     func getMovieRatings() {
         switch networkConnectivity.currentPath.status {
         case .satisfied:    //  Connected to internet
-            apiService.getMovieRatings { result in
+            apiService.getMovieRatings { [weak self] result in
                 switch result {
                 case .success(let movieRatings):
-                    self.movieRatings = movieRatings ?? []
+                    self?.movieRatings = movieRatings ?? []
+                    
+                    self?.persistentController.addAndUpdateMovieRatingServerDataToCoreData(movieRatingFromBackend: movieRatings)
                 case .failure(let error):
-                    self.error = error
+                    self?.error = error
                 }
             }
         default:
-            //  TODO: add core data fetch
-            break
+            // Fetch it from persistence of the device
+            movieRatings = persistentController.fetchMovieRatingsFromCoreData()
         }
     }
 }
